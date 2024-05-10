@@ -1,0 +1,13 @@
+{
+    "manifest_version":3,
+    "name":"GatherLinks",
+    "version":"1.0.0",
+    "description": "Gathering important links right away in your Browser",
+    "host_permissions":["<all_urls>"],
+    "permissions":[
+        "activeTab","scripting","tabs"
+    ],
+    "action":{
+    "default_popup":"popup.html"
+    }
+}

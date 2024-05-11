@@ -1,5 +1,7 @@
 import { themeToggle } from "./script.js";
 import { copyLink } from "./script.js";
+import { getActiveTabURL } from "./script.js";
+import { notification } from "./script.js";
 
 themeToggle();
 
@@ -39,11 +41,27 @@ function createURLContainer() {
   const copyBtn = document.createElement("button");
   copyBtn.innerHTML = '<i class="ri-file-copy-line"></i>';
   copyBtn.classList.add("copybtn");
-  copyBtn.addEventListener("click", (e) => copyLink(linkInput));
+  copyBtn.title = "Copy Link";
+  copyBtn.addEventListener("click", (e) => {
+    copyLink(linkInput);
+    notification("Link copied!");
+  });
 
   const deleteBtn = document.createElement("button");
   deleteBtn.innerHTML = '<i class="ri-delete-bin-6-line"></i>';
   deleteBtn.classList.add("deletebtn");
+  deleteBtn.title = "Delete Link";
+
+  const redirectBtn = document.createElement("button");
+  redirectBtn.innerHTML = '<i class="ri-send-plane-fill"></i>';
+  redirectBtn.classList.add("redirectbtn");
+  redirectBtn.title = "Open Link in new tab";
+
+  // Function to open the Link in New Tab
+  redirectBtn.addEventListener("click",()=>{
+    const url = linkInput.value;
+    window.open(url, '_blank');
+  })
 
   // Function to delete link from Storage & DOM
   deleteBtn.addEventListener("click", async () => {
@@ -58,7 +76,7 @@ function createURLContainer() {
     await chrome.storage.sync.set({ "links": JSON.stringify(links) });
   });
 
-  urlContainer.append(titleInput, linkInput, copyBtn, deleteBtn);
+  urlContainer.append(titleInput, linkInput , deleteBtn, copyBtn , redirectBtn);
   return urlContainer;
 }
 
@@ -78,11 +96,12 @@ async function saveLinkToStorage(urlContainer) {
 
     // Append the new link to the array
     links.unshift({ title, link });
+    notification("URL Saved!")
 
     // Save the updated array back to storage
     await chrome.storage.sync.set({ "links": JSON.stringify(links) });
   } else {
-    alert("Please! fill all the require feilds");
+    alert("Please! Fill All The Require Feilds");
   }
 }
 
@@ -93,8 +112,11 @@ document.addEventListener("DOMContentLoaded", () => {
   const addURLBtn = document.querySelector("#addURLBtn");
   const saveBtnURL = document.querySelector("#saveURLBtn");
 
-  addURLBtn.addEventListener("click", () => {
+  addURLBtn.addEventListener("click", async () => {
+    const activeTab = await getActiveTabURL();
+    const activeTabURL = activeTab.url;
     const urlContainer = createURLContainer();
+    urlContainer.querySelector(".linkInput").value = activeTabURL;
     main.appendChild(urlContainer);
   });
 

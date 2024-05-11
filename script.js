@@ -18,12 +18,31 @@ export function themeToggle() {
 }
 
 export const copyLink = (linkInput) => {
-      const textToCopy = linkInput.value;
-      navigator.clipboard.writeText(textToCopy)
-        .then(() => {
-          console.log('Text copied successfully!');
-        })
-        .catch(err => {
-          console.error('Unable to copy text: ', err);
-        });
-    }
+  const link = linkInput.value;
+  navigator.clipboard.writeText(link)
+    .then(() => {
+      console.log("Link copied");
+    })
+    .catch((error) => {
+      console.error("Failed to copy:", error);
+    });
+  }
+
+export async function getActiveTabURL(){
+      let queryOptions = {active : true,currentWindow :true};
+      let [tab] = await chrome.tabs.query(queryOptions);
+      return tab;
+  }
+
+export function notification(message){
+  // Show notification
+  const notification = document.createElement("div");
+  notification.classList.add("notification");
+  notification.textContent = message;
+  document.body.appendChild(notification);
+
+  // Remove notification after 2 seconds
+  setTimeout(() => {
+    notification.remove();
+  }, 2000);
+}

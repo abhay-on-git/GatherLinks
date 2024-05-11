@@ -27,6 +27,3 @@ export const copyLink = (linkInput) => {
           console.error('Unable to copy text: ', err);
         });
     }
-export const deleteChild = (urlContainer,main) => {
-       main.removeChild(urlContainer);
-    }

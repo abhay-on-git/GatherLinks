@@ -1,11 +1,9 @@
 import { themeToggle } from "./script.js";
 import { copyLink } from "./script.js";
-import { deleteChild } from "./script.js";
 
 themeToggle();
 
 const main = document.querySelector("main");
-const saveBtnURL = document.querySelector("#saveURLBtn");
 
 // Function to load saved links from Chrome storage
 async function loadLinksFromStorage() {
@@ -46,7 +44,19 @@ function createURLContainer() {
   const deleteBtn = document.createElement("button");
   deleteBtn.innerHTML = '<i class="ri-delete-bin-6-line"></i>';
   deleteBtn.classList.add("deletebtn");
-  deleteBtn.addEventListener("click", (e) => deleteChild(urlContainer, main));
+
+  // Function to delete link from Storage & DOM
+  deleteBtn.addEventListener("click", async () => {
+    const urlContainer = deleteBtn.parentElement; // Get the parent container to be deleted
+    main.removeChild(urlContainer); // Remove the container from the DOM
+    const deletingContainerTitle = urlContainer.querySelector(".titleInput").value;
+    const data = await chrome.storage.sync.get(["links"]);
+    let links = JSON.parse(data.links);
+    // Filter out the link with the corresponding title
+    links = links.filter(item => item.title !== deletingContainerTitle);
+    // Save the updated links back to storage
+    await chrome.storage.sync.set({ "links": JSON.stringify(links) });
+  });
 
   urlContainer.append(titleInput, linkInput, copyBtn, deleteBtn);
   return urlContainer;
@@ -56,15 +66,26 @@ function createURLContainer() {
 async function saveLinkToStorage(urlContainer) {
   const title = urlContainer.querySelector(".titleInput").value;
   const link = urlContainer.querySelector(".linkInput").value;
-  if (title !== "" && link !== "") {git stau
+  
+  if (title !== "" && link !== "") {
+    const data = await chrome.storage.sync.get(["links"]);
     let links = [];
-    links.push({ title, link });
-    console.log(links[0]);
-    await chrome.storage.sync.set({ links: JSON.stringify(links) });
+
+    // If there are existing links, parse them and add them to the array
+    if (data.links) {
+      links = JSON.parse(data.links);
+    }
+
+    // Append the new link to the array
+    links.unshift({ title, link });
+
+    // Save the updated array back to storage
+    await chrome.storage.sync.set({ "links": JSON.stringify(links) });
   } else {
-    alert("Please! fill All Inputs");
+    alert("Please! fill all the require feilds");
   }
 }
+
 
 document.addEventListener("DOMContentLoaded", () => {
   loadLinksFromStorage();

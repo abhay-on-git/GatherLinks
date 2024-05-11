@@ -1,3 +1,4 @@
+
 export function themeToggle() {
   let navIcons = document.querySelector(".n2 .icons");
   let lightIcon = document.getElementById("light");

@@ -3,15 +3,15 @@
     --body-color: #FAFAFA;
     --font-color:#4608ad;
     --border-Color:#121212;
-    --default-color:#fff;
+    --default-color:#0e0e0e79;
     
 }
 
 .dark-theme{
-    --body-color: #121212;
+    --body-color: #141414;
     --font-color:#ffffff;
     --border-Color:#FAFAFA;
-    --default-color:#000;
+    --default-color:#000000;
 }
 
 * {
@@ -84,14 +84,12 @@ nav h1 span{
 main{
     width: 100%;
     height: 100%;
-    background-color: antiquewhite;
 }
 /* SearchContainer styles */
 
 .searchContainer{
     width: 100%;
-    /* height: 40px; */
-    padding: 5px;
+    padding: 10px 5px;
     gap: 8px;
     display: flex;
     align-items: center;
@@ -100,21 +98,23 @@ main{
 .searchContainer input{
     width: calc(100% - 95px) ;
     padding: 10px 20px;
-    border-radius: 5px;
+    border-radius: 3px;
     border: none;
     outline: none;
     font-size: 17px;
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 0.5px 0.5px 5px rgba(0, 0, 0, 0.381);
+    background-color: var(--body-color);
+    color: var(--font-color);
+    box-shadow: 0.5px 0.5px 5px var(--default-color);
 }
 .searchContainer button{
     width: 90px;
     padding: 10px 20px;
-    border-radius: 5px;
+    border-radius: 3px;
     border: none;
-    font-size: 15px;
+    font-size: 16px;
     white-space: nowrap;
     font-weight: 500;
     display: flex;
@@ -125,9 +125,66 @@ main{
     background-color:#e9e3f45f;
     backdrop-filter: blur(20px);
     color: var(--font-color);
-    box-shadow: 0.5px 0.5px 5px rgba(0, 0, 0, 0.381);
+    box-shadow: 0.5px 0.5px 5px var(--default-color);
 }
 button:hover{
     filter: brightness(110%);
     transition: all 0.3s ease;
+}
+
+/* urlContainers Styles */
+
+.urlContainer{
+    padding: 5px;
+   width: 100%;
+   height: auto;
+   display: flex;
+   align-items: center;
+   justify-content: space-between;
+   gap: 5px;
+}
+.titleInput{
+    width: 140px;
+    padding: 9px;
+    border-radius: 3px;
+    border: none;
+    outline: none;
+    font-size: 17px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--body-color);
+    color: var(--font-color);
+    box-shadow: 0.5px 0.5px 5px var(--default-color);
+}
+.linkInput{
+    width: 350px;
+    padding: 9px;
+    border-radius: 3px;
+    border: none;
+    outline: none;
+    font-size: 17px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--body-color);
+    color: var(--font-color);
+    box-shadow: 0.5px 0.5px 5px var(--default-color);
+}
+.copybtn,.deletebtn{
+    padding: 7px 10px;
+    border-radius: 3px;
+    border: none;
+    font-size: 22px;
+    white-space: nowrap;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    outline: none;
+    background-color:#e9e3f45f;
+    backdrop-filter: blur(20px);
+    color: var(--font-color);
+    box-shadow: 0.5px 0.5px 5px var(--default-color);
 }

@@ -7,7 +7,7 @@
     <link
     href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css"
     rel="stylesheet"/>
-    <script src="script.js" defer></script>
+    <script type="module" src="popup.js" defer></script>
     <title>GatherLinks</title>
 </head>
 <body>
@@ -26,10 +26,16 @@
     </nav>
     <div class="searchContainer">
         <input type="text" placeholder="Search your links here...">
-        <button>Add URL</button>
+        <button id="addURLBtn">Add URL</button>
     </div>
     <main>
         <h1>hellow</h1>
+        <div class="urlContainer">
+            <input type="text" class="titleInput" placeholder="Title">
+            <input type="text" class="linkInput" placeholder="Link">
+            <button title="copy" class="copybtn"><i class="ri-file-copy-line"></i></button>
+            <button title="delete" class="deletebtn"><i class="ri-delete-bin-6-line"></i></button>
+        </div>
     </main>
     
 </body>

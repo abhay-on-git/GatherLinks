@@ -1,13 +1,33 @@
 import { themeToggle } from "./script.js";
+import { copyLink } from "./script.js";
+import { deleteChild } from "./script.js";
+
 themeToggle();
 
-// Add URL logic
 const main = document.querySelector("main");
-const addURLBtn = document.querySelector("#addURLBtn");
-addURLBtn.addEventListener("click", () => {
+const saveBtnURL = document.querySelector("#saveURLBtn");
+
+// Function to load saved links from Chrome storage
+async function loadLinksFromStorage() {
+  console.log("inside the loadLinksFromStorage func");
+
+  const data = await chrome.storage.sync.get(["links"]);
+  if (data.links) {
+    const savedLinks = JSON.parse(data.links);
+    savedLinks.forEach((link) => {
+      const urlContainer = createURLContainer();
+      urlContainer.querySelector(".titleInput").value = link.title;
+      urlContainer.querySelector(".linkInput").value = link.link;
+      main.appendChild(urlContainer);
+    });
+  }
+}
+
+// Function to create URL container
+function createURLContainer() {
   const urlContainer = document.createElement("div");
   urlContainer.classList.add("urlContainer");
-  // Create input fields for the new
+
   const titleInput = document.createElement("input");
   titleInput.classList.add("titleInput");
   titleInput.type = "text";
@@ -18,17 +38,47 @@ addURLBtn.addEventListener("click", () => {
   linkInput.type = "text";
   linkInput.placeholder = "Link";
 
-  const copybtn = document.createElement("button");
-  copybtn.innerHTML = `<i class="ri-file-copy-line">`;
-  copybtn.classList.add("copybtn");
+  const copyBtn = document.createElement("button");
+  copyBtn.innerHTML = '<i class="ri-file-copy-line"></i>';
+  copyBtn.classList.add("copybtn");
+  copyBtn.addEventListener("click", (e) => copyLink(linkInput));
 
-  const deletebtn = document.createElement("button");
-  deletebtn.innerHTML = `<i class="ri-delete-bin-6-line">`;
-  deletebtn.classList.add("deletebtn");
+  const deleteBtn = document.createElement("button");
+  deleteBtn.innerHTML = '<i class="ri-delete-bin-6-line"></i>';
+  deleteBtn.classList.add("deletebtn");
+  deleteBtn.addEventListener("click", (e) => deleteChild(urlContainer, main));
 
-  // Assuming urlContainer is the parent element
-  urlContainer.append(titleInput, linkInput, copybtn, deletebtn);
+  urlContainer.append(titleInput, linkInput, copyBtn, deleteBtn);
+  return urlContainer;
+}
 
-  main.appendChild(urlContainer);
-  
+// Function to save link to Chrome storage
+async function saveLinkToStorage(urlContainer) {
+  const title = urlContainer.querySelector(".titleInput").value;
+  const link = urlContainer.querySelector(".linkInput").value;
+  if (title !== "" && link !== "") {git stau
+    let links = [];
+    links.push({ title, link });
+    console.log(links[0]);
+    await chrome.storage.sync.set({ links: JSON.stringify(links) });
+  } else {
+    alert("Please! fill All Inputs");
+  }
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  loadLinksFromStorage();
+
+  const addURLBtn = document.querySelector("#addURLBtn");
+  const saveBtnURL = document.querySelector("#saveURLBtn");
+
+  addURLBtn.addEventListener("click", () => {
+    const urlContainer = createURLContainer();
+    main.appendChild(urlContainer);
+  });
+
+  saveBtnURL.addEventListener("click", () => {
+    const urlContainer = main.lastElementChild;
+    saveLinkToStorage(urlContainer);
+  });
 });

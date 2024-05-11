@@ -5,12 +5,9 @@
     "description": "Gathering important links right away in your Browser",
     "host_permissions":["<all_urls>"],
     "permissions":[
-        "activeTab","scripting","tabs"
+        "activeTab","scripting","tabs","storage"
     ],
     "action":{
     "default_popup":"popup.html"
-    },
-    "background": {
-        "service_worker": "popup.js"
-      }
+    }
 }

@@ -16,4 +16,17 @@ export function themeToggle() {
     }
   });
 }
-// themeToggle();
+
+export const copyLink = (linkInput) => {
+      const textToCopy = linkInput.value;
+      navigator.clipboard.writeText(textToCopy)
+        .then(() => {
+          console.log('Text copied successfully!');
+        })
+        .catch(err => {
+          console.error('Unable to copy text: ', err);
+        });
+    }
+export const deleteChild = (urlContainer,main) => {
+       main.removeChild(urlContainer);
+    }

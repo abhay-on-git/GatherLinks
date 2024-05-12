@@ -35,6 +35,26 @@ export async function getActiveTabURL(){
       return tab;
   }
 
+export function feedBackNotification(message,feedbackLink){
+  console.log(feedbackLink)
+  // Show notification
+  const notification = document.createElement("div");
+  const notificationMessage = document.createElement("h3");
+  const feedbacklink = document.createElement("a");
+  notification.classList.add("feedBacknotification");
+  notificationMessage.textContent = message;
+  feedbacklink.href = feedbackLink;
+  feedbacklink.textContent = feedbackLink;
+  console.log(feedbacklink)
+  notification.append(notificationMessage,feedbacklink);
+  console.log(notification)
+  document.body.appendChild(notification);
+
+  // Remove notification after 2 seconds
+  setTimeout(() => {
+    notification.remove();
+  }, 5000);
+}
 export function notification(message){
   // Show notification
   const notification = document.createElement("div");

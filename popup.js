@@ -2,8 +2,15 @@ import { themeToggle } from "./script.js";
 import { copyLink } from "./script.js";
 import { getActiveTabURL } from "./script.js";
 import { notification } from "./script.js";
+import { feedBackNotification } from "./script.js";
 
 themeToggle();
+
+// feedback
+const feedBackMenu = document.querySelector(".n2 .feedBackMenu");
+feedBackMenu.addEventListener("click",()=>{
+  feedBackNotification("Please! Drop your 💓 feedback here",`https://tailwindcss.com/`)
+})
 
 // Searching Functionality
 searchInput.addEventListener("keyup", () => {

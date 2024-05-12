@@ -58,7 +58,7 @@ nav h1 span {
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  gap: 35px;
+  gap: 30px;
 }
 .n2 .icons {
   display: flex;
@@ -74,8 +74,8 @@ nav h1 span {
 #light {
   opacity: 0;
 }
-.menu {
-  font-size: 21px;
+.feedBackMenu {
+  font-size: 25px;
   cursor: pointer;
 }
 main {
@@ -99,6 +99,26 @@ main > h3 {
   border-radius: 5px;
   z-index: 9999;
   animation: slideIn 0.5s ease-out;
+}
+.feedBacknotification {
+  position: fixed;
+  top: 20px;
+  left: 30%;
+  background-color: rgba(0, 0, 0, 0.8);
+  color: white;
+  padding: 20px 25px;
+  border-radius: 5px;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  animation: slideIn 0.5s ease-out;
+}
+.feedBacknotification a{
+    font-size: 16px;
+    color: white;
 }
 
 @keyframes slideIn {

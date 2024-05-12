@@ -5,6 +5,26 @@ import { notification } from "./script.js";
 
 themeToggle();
 
+// Searching Functionality
+searchInput.addEventListener("keyup", () => {
+  const searchTerm = searchInput.value.toLowerCase(); 
+  const urlContainers = document.querySelectorAll(".urlContainer");
+  let found = false; 
+  urlContainers.forEach(urlContainer => {
+    const title = urlContainer.querySelector(".titleInput").value.toLowerCase(); 
+    if (title.includes(searchTerm)) {
+      urlContainer.style.display = ''; 
+      found = true; 
+    } else {
+      urlContainer.style.display = 'none'; 
+    }
+  });
+  // If no container matches the search term, display a 404 message
+  if (!found) {
+    notification("404 Not Found!")
+  }
+});
+
 const main = document.querySelector("main");
 
 // Function to load saved links from Chrome storage

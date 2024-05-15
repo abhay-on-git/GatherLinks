@@ -49,6 +49,9 @@ export function feedBackNotification(message,feedbackLink){
   notification.append(notificationMessage,feedbacklink);
   console.log(notification)
   document.body.appendChild(notification);
+  feedbacklink.addEventListener('click',()=>{
+    window.open(feedbackLink, "_blank")
+  })
 
   // Remove notification after 2 seconds
   setTimeout(() => {

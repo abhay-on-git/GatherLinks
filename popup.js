@@ -9,7 +9,7 @@ themeToggle();
 // feedback
 const feedBackMenu = document.querySelector(".n2 .feedBackMenu");
 feedBackMenu.addEventListener("click",()=>{
-  feedBackNotification("Please! Drop your 💓 feedback here",`https://tailwindcss.com/`)
+  feedBackNotification("Please! Drop your 💓 feedback here",`https://chromewebstore.google.com/`);
 })
 
 // Searching Functionality

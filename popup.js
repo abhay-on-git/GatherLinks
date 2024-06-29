@@ -9,7 +9,7 @@ themeToggle();
 // feedback
 const feedBackMenu = document.querySelector(".n2 .feedBackMenu");
 feedBackMenu.addEventListener("click",()=>{
-  feedBackNotification("Please! Drop your 💓 feedback here",`https://chromewebstore.google.com/`);
+  feedBackNotification("Please! Drop your 💓 feedback here",`https://chromewebstore.google.com/detail/gatherlinks/gkmnhednlbfalbmeijbmjlaicleeiimb`);
 })
 
 // Searching Functionality
@@ -80,7 +80,7 @@ function createURLContainer() {
   deleteBtn.title = "Delete Link";
 
   const redirectBtn = document.createElement("button");
-  redirectBtn.innerHTML = '<i class="ri-send-plane-fill"></i>';
+  redirectBtn.innerHTML = '<i class="ri-arrow-go-forward-line"></i>';
   redirectBtn.classList.add("redirectbtn");
   redirectBtn.title = "Open Link in new tab";
 

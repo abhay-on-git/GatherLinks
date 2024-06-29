@@ -44,7 +44,7 @@ export function feedBackNotification(message,feedbackLink){
   notification.classList.add("feedBacknotification");
   notificationMessage.textContent = message;
   feedbacklink.href = feedbackLink;
-  feedbacklink.textContent = feedbackLink;
+  feedbacklink.textContent = 'click me';
   console.log(feedbacklink)
   notification.append(notificationMessage,feedbacklink);
   console.log(notification)

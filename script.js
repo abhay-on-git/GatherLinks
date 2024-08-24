@@ -28,7 +28,6 @@ export const copyLink = (linkInput) => {
       console.error("Failed to copy:", error);
     });
   }
-
 export async function getActiveTabURL(){
       let queryOptions = {active : true,currentWindow :true};
       let [tab] = await chrome.tabs.query(queryOptions);

@@ -36,24 +36,47 @@ const main = document.querySelector("main");
 
 // Function to load saved links from Chrome storage
 async function loadLinksFromStorage() {
-  console.log("inside the loadLinksFromStorage func");
+  try {
+    const { links } = await chrome.storage.sync.get(["links"]);
 
-  const data = await chrome.storage.sync.get(["links"]);
-  if (data.links) {
-    const savedLinks = JSON.parse(data.links);
-    savedLinks.forEach((link) => {
-      const urlContainer = createURLContainer();
-      urlContainer.querySelector(".titleInput").value = link.title;
-      urlContainer.querySelector(".linkInput").value = link.link;
-      main.appendChild(urlContainer);
-    });
+    if (links) {
+      const savedLinks = JSON.parse(links);
+
+      // Create a fragment to minimize DOM manipulations
+      const fragment = document.createDocumentFragment();
+
+      savedLinks.forEach((link) => {
+        const urlContainer = createURLContainer(link.faviconUrl); // Pass the favicon URL
+        urlContainer.querySelector(".titleInput").value = link.title;
+        urlContainer.querySelector(".linkInput").value = link.link;
+        fragment.appendChild(urlContainer);
+      });
+
+      // Append all URL containers to the main element in one go
+      main.appendChild(fragment);
+    }
+  } catch (error) {
+    console.error("Failed to load links from storage:", error);
+    notification("Failed to load links. Please try again.");
   }
 }
 
+
 // Function to create URL container
-function createURLContainer() {
+
+function createURLContainer(favIconUrl) {
   const urlContainer = document.createElement("div");
   urlContainer.classList.add("urlContainer");
+
+  const faviconDiv = document.createElement("div");
+  faviconDiv.classList.add("faviconDiv");
+  faviconDiv.title = "favicon";
+
+  // Use innerHTML to set the favicon
+  faviconDiv.innerHTML = getFavIcon(favIconUrl); // Set favicon HTML directly
+
+  // Store the favicon URL in a data attribute
+  urlContainer.setAttribute("data-favicon-url", favIconUrl);
 
   const titleInput = document.createElement("input");
   titleInput.classList.add("titleInput");
@@ -85,10 +108,10 @@ function createURLContainer() {
   redirectBtn.title = "Open Link in new tab";
 
   // Function to open the Link in New Tab
-  redirectBtn.addEventListener("click",()=>{
+  redirectBtn.addEventListener("click", () => {
     const url = linkInput.value;
     window.open(url, '_blank');
-  })
+  });
 
   // Function to delete link from Storage & DOM
   deleteBtn.addEventListener("click", async () => {
@@ -103,15 +126,27 @@ function createURLContainer() {
     await chrome.storage.sync.set({ "links": JSON.stringify(links) });
   });
 
-  urlContainer.append(titleInput, linkInput , deleteBtn, copyBtn , redirectBtn);
+  urlContainer.append(faviconDiv, titleInput, linkInput, deleteBtn, copyBtn, redirectBtn);
   return urlContainer;
+}
+
+
+function getFavIcon(favIconUrl) {
+  if (favIconUrl.startsWith('http')) {
+    // Return an image tag with properly quoted attributes
+    return `<img src="${favIconUrl}" alt="favicon" />`;
+  } else {
+    // Return an icon if URL does not start with http
+    return `<i class="ri-arrow-right-fill"></i>`;
+  }
 }
 
 // Function to save link to Chrome storage
 async function saveLinkToStorage(urlContainer) {
   const title = urlContainer.querySelector(".titleInput").value;
   const link = urlContainer.querySelector(".linkInput").value;
-  
+  const faviconUrl = urlContainer.getAttribute("data-favicon-url"); // Retrieve favicon URL
+
   if (title !== "" && link !== "") {
     const data = await chrome.storage.sync.get(["links"]);
     let links = [];
@@ -121,16 +156,17 @@ async function saveLinkToStorage(urlContainer) {
       links = JSON.parse(data.links);
     }
 
-    // Append the new link to the array
-    links.unshift({ title, link });
-    notification("URL Saved!")
+    // Append the new link along with the favicon URL to the array
+    links.unshift({ title, link, faviconUrl });
+    notification("URL Saved!");
 
     // Save the updated array back to storage
     await chrome.storage.sync.set({ "links": JSON.stringify(links) });
   } else {
-    alert("Please! Fill All The Require Feilds");
+    alert("Please! Fill All The Required Fields");
   }
 }
+
 
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -142,7 +178,10 @@ document.addEventListener("DOMContentLoaded", () => {
   addURLBtn.addEventListener("click", async () => {
     const activeTab = await getActiveTabURL();
     const activeTabURL = activeTab.url;
-    const urlContainer = createURLContainer();
+    const favIconUrl = activeTab.favIconUrl
+    console.log(favIconUrl,'clicked')
+    
+    const urlContainer = createURLContainer(favIconUrl);
     urlContainer.querySelector(".linkInput").value = activeTabURL;
     main.appendChild(urlContainer);
   });

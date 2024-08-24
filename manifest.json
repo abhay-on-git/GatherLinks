@@ -1,19 +1,17 @@
 {
-    "manifest_version":3,
-    "name":"Gather Links",
-    "version":"1.0.2",
+    "manifest_version": 3,
+    "name": "Gather Links",
+    "version": "1.0.2",
     "description": "Quickly gather important links directly in your browser!",
-    "host_permissions":["<all_urls>"],
-    "permissions":[
-        "storage"
-    ],
-    "action":{
-    "default_popup":"popup.html"
+    "host_permissions": ["<all_urls>"],
+    "permissions": ["activeTab", "scripting", "storage"],
+    "action": {
+        "default_popup": "popup.html"
     },
-    "icons":{
-        "16":"/images/G-16.png",
-        "32":"/images/G-32.png",
-        "48":"/images/G-48.png",
-        "128":"/images/G-128.png"
+    "icons": {
+        "16": "/images/G-16.png",
+        "32": "/images/G-32.png",
+        "48": "/images/G-48.png",
+        "128": "/images/G-128.png"
     }
 }

@@ -1,7 +1,7 @@
 {
     "manifest_version": 3,
     "name": "Gather Links",
-    "version": "1.0.2",
+    "version": "1.1.0",
     "description": "Quickly gather important links directly in your browser!",
     "host_permissions": ["<all_urls>"],
     "permissions": ["activeTab", "scripting", "storage"],

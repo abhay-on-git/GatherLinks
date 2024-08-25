@@ -1,22 +1,42 @@
-
 export function themeToggle() {
   let navIcons = document.querySelector(".n2 .icons");
   let lightIcon = document.getElementById("light");
   let darkIcon = document.getElementById("dark");
   let isDarkMode = true;
+
+  // Check storage for the saved theme
+  chrome.storage.sync.get("theme", ({ theme }) => {
+    if (theme === "dark-theme") {
+      document.body.classList.add("dark-theme");
+      lightIcon.style.opacity = 1;
+      darkIcon.style.opacity = 0;
+      isDarkMode = true;
+    } else {
+      document.body.classList.remove("dark-theme");
+      darkIcon.style.opacity = 1;
+      lightIcon.style.opacity = 0;
+      isDarkMode = false;
+    }
+  });
+
+  // Toggle the theme when the user clicks the nav icon
   navIcons.addEventListener("click", () => {
     document.body.classList.toggle("dark-theme");
+    isDarkMode = !isDarkMode;
+
     if (isDarkMode) {
       lightIcon.style.opacity = 1;
       darkIcon.style.opacity = 0;
-      isDarkMode = false;
+      chrome.storage.sync.set({ theme: "dark-theme" }); // Save dark theme preference
     } else {
-      dark.style.opacity = 1;
+      darkIcon.style.opacity = 1;
       lightIcon.style.opacity = 0;
-      isDarkMode = true;
+      chrome.storage.sync.set({ theme: "light-theme" }); // Save light theme preference
     }
   });
 }
+
+
 
 export const copyLink = (linkInput) => {
   const link = linkInput.value;
